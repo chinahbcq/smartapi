@@ -4,12 +4,11 @@
  *
  **************************************************************************/
 
-
 /**
  * @file global.go
  * @author chenqian (chinahbcq@qq.com)
  * @date 2016-04-19 14:28:03
- * @brief 
+ * @brief
  *
  **/
 
@@ -78,8 +77,15 @@ type ConfigStruct struct {
 	RedisAddresses    []string `flag:"redis-addresses"`
 }
 
+type Err struct {
+	ErrorCode int64  `json:"error_code"`
+	ErrorMsg  string `json:"error_msg"`
+	RequestId int64  `json:"request_id"`
+}
+
+var ErrorMap map[string]Err
+
 var Global GlobalStruct
-var ErrorMap map[string]interface{}
 
 /**
  * @brief 获取redis的一个实例

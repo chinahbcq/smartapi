@@ -4,12 +4,11 @@
  *
  **************************************************************************/
 
-
 /**
  * @file action/users.go
  * @author chenqian (chinahbcq@qq.com)
  * @date 2016-05-05 20:31:43
- * @brief 
+ * @brief
  *
  **/
 
@@ -24,6 +23,7 @@ import (
 func Users(w http.ResponseWriter, r *http.Request) {
 	logger := utils.Global.Logger
 	logbuf := utils.NewLogBuffer()
+	logbuf.WriteLog(" [path:%s]", r.URL.Path)
 	subAction, ok := utils.GetSubAction(r.URL.Path)
 	if !ok {
 		panic(&utils.SysError{logbuf, "err.method_not_support"})

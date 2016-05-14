@@ -19,7 +19,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strconv"
 	//"time"
 )
 import (
@@ -41,7 +40,7 @@ func (handle *users) Info(w http.ResponseWriter, r *http.Request, logbuf *utils.
 	//参数检查
 	mustParams := []string{"uid"}
 	optParams := []string{"token"}
-	ok = utils.CheckParam(mustParams, optParams, m)
+	ok = utils.CheckParam(logbuf, mustParams, optParams, m)
 	if !ok {
 		panic(&utils.SysError{logbuf, "err.param_error"})
 	}
@@ -49,16 +48,11 @@ func (handle *users) Info(w http.ResponseWriter, r *http.Request, logbuf *utils.
 	uid := m["uid"][0]
 	logbuf.WriteLog(" [uid:%s]", uid)
 	//参数校验
-	Uid, err := strconv.ParseInt(uid, 10, 64)
-	if err != nil {
-		logbuf.WriteLog(" [error_msg:uid param error]")
-		panic(&utils.SysError{logbuf, "err.param_error"})
-	}
+	Uid := utils.CheckUInt(logbuf, uid)
 
 	var user dao.User
 	user, ok = data.User.GetUserById(logbuf, Uid)
 	if !ok {
-		logbuf.WriteLog(" [error_msg:user not exist]")
 		panic(&utils.SysError{logbuf, "err.user_not_exist"})
 	}
 
